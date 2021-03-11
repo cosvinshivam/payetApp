@@ -32,5 +32,11 @@ public class WalletDao {
 	public void transferMoney(String sender, String receiver, BigDecimal amount) {
 		//repo.save(wallet);
 	}
+
+	public Wallet getWalletPassword(String password) {
+		return repo.findByEmpId(password);
+		
+		
+	}
 	
 }

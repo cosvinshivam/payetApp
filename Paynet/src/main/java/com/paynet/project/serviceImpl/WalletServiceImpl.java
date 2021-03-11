@@ -18,26 +18,22 @@ public class WalletServiceImpl implements WalletServiceAPI{
 
 	@Autowired
 	private WalletDao dao;
-	
+
 	@Override
-	public Wallet openAccount(String phoneNumber, String name, String password) throws WalletNotFoundException {
-		
-		Optional<Wallet> wall = dao.getWalletByNumber(phoneNumber);
-        
-        if(wall.isPresent())
-        {             
-           throw new WalletNotFoundException("Wallet already exist with "+ phoneNumber +" this number");
-        } else {
-        	Wallet wallet = new Wallet();
-        	wallet.setAmount(new BigDecimal("1000"));
-        	wallet.setPhoneNumber(phoneNumber);
-        	wallet.setName(name);
-        	wallet.setCreatedAt(new Date());
-        	wallet.setPassword(password);
-        	wallet.setUpdatedAt(new Date());
-        	wallet = dao.openAccount(wallet);
-            return wallet;
-        }		
+	public Wallet openAccount(Wallet wallet) throws WalletNotFoundException {
+
+		Optional<Wallet> wall = dao.getWalletByNumber(wallet.getPhoneNumber());
+
+		if(wall.isPresent())
+		{             
+			throw new WalletNotFoundException("Wallet already exist with "+ wallet.getPhoneNumber() +" this number");
+		} else {
+			wallet.setAmount(new BigDecimal("1000"));
+			wallet.setCreatedAt(new Date());
+			wallet.setUpdatedAt(new Date());
+			wallet = dao.openAccount(wallet);
+			return wallet;
+		}		
 	}
 
 	@Override
@@ -48,7 +44,7 @@ public class WalletServiceImpl implements WalletServiceAPI{
 		{             
 			throw new WalletNotFoundException(" No Wallet exist with "+ wallet.getPhoneNumber() +" this number");
 		} else {
-			
+
 			wallet.setUpdatedAt(new Date());
 			wallet = dao.openAccount(wallet);
 			return wallet;
@@ -59,7 +55,7 @@ public class WalletServiceImpl implements WalletServiceAPI{
 	@Override
 	public Wallet transferMoney(String sender, String receiver, BigDecimal amount) throws WalletNotFoundException {
 		dao.transferMoney(sender, receiver, amount);
-		
+
 		Optional<Wallet> senderWallet = dao.getWalletByNumber(sender);
 		Optional<Wallet> receiverWallet = dao.getWalletByNumber(sender);
 
@@ -77,7 +73,7 @@ public class WalletServiceImpl implements WalletServiceAPI{
 			}	
 			else
 				throw new WalletNotFoundException("Insufficient Amount");
-			
+
 			receiverWallet.get().setAmount(receiverWallet.get().getAmount().add(amount));
 			receiverWallet.get().setUpdatedAt(new Date());
 			dao.openAccount(senderWallet.get());
@@ -85,28 +81,41 @@ public class WalletServiceImpl implements WalletServiceAPI{
 		}
 		return senderWallet.get();	
 	}
-	
+
 	@Override
 	public List<Wallet> getAllWallets() {
 		List<Wallet> wallets = (List<Wallet>) dao.getAllWallets();
-        
-        if(wallets.size() > 0) {
-            return wallets;
-        } else {
-            return new ArrayList<Wallet>();
-        }
+
+		if(wallets.size() > 0) {
+			return wallets;
+		} else {
+			return new ArrayList<Wallet>();
+		}
 	}
 
 	@Override
 	public Wallet getWalletByNumber(String phoneNumber) throws WalletNotFoundException {
-		
-		 Optional<Wallet> wallet = dao.getWalletByNumber(phoneNumber);
-         
-	        if(wallet.isPresent()) {
-	            return wallet.get();
-	        } else {
-	          throw new WalletNotFoundException("No employee record exist for given id");
-	        }
+
+		Optional<Wallet> wallet = dao.getWalletByNumber(phoneNumber);
+
+		if(wallet.isPresent()) {
+			return wallet.get();
+		} else {
+			throw new WalletNotFoundException("No employee record exist for given id");
+		}
 	}
+
+	@Override
+	public boolean login(String phoneNumber, String password) throws WalletNotFoundException {
+		Optional<Wallet> wallet = dao.getWalletByNumber(phoneNumber);
+		if(wallet.isPresent() && wallet.get().equals(dao.getWalletPassword(password))) {
+			return true;   
+		} 
+		else {
+			throw new WalletNotFoundException("No employee record exist for given id");
+		}
+
+	}
+
 
 }

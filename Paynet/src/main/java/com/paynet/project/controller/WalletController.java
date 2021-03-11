@@ -46,15 +46,15 @@ public class WalletController {
 		return new ResponseEntity<List<Wallet>>(list, new HttpHeaders(), HttpStatus.OK);
     }                        
 		
-	@GetMapping("/ss/{number}")
+	@GetMapping("/ss/{phoneNumber}")
 	 public ResponseEntity<Wallet> showStatement(@PathVariable String phoneNumber)  throws WalletNotFoundException {
        Wallet wallet = serviceImpl.getWalletByNumber(phoneNumber);
        return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
    }
 	
-	@PostMapping("/signup")
-	 public ResponseEntity<Wallet> signUp(@PathVariable String phoneNumber, @PathVariable String name, @PathVariable String password) throws WalletNotFoundException{
-		Wallet w = serviceImpl.openAccount(phoneNumber, name, password) ;
+	@PostMapping("/openAcc")
+	 public ResponseEntity<Wallet> openAccount(@RequestBody Wallet wallet) throws WalletNotFoundException{
+		Wallet w = serviceImpl.openAccount(wallet) ;
 		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 		
@@ -70,4 +70,12 @@ public class WalletController {
 		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/ss/{phoneNumber}/{password}")
+	 public String authenticate(@PathVariable String phoneNumber, @PathVariable String password)  throws WalletNotFoundException {
+      if(serviceImpl.login(phoneNumber, password)) {
+    	return "success";  
+      }
+      //return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
+	return password;
+  }
 }

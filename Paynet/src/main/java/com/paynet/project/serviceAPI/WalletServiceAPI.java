@@ -10,8 +10,9 @@ public interface WalletServiceAPI {
 	
 	public Iterable<Wallet> getAllWallets();
 	Wallet getWalletByNumber(String phoneNumber) throws WalletNotFoundException;
+	Wallet openAccount(Wallet wallet) throws WalletNotFoundException;
 	Wallet transferMoney(String sender, String receiver, BigDecimal amount) throws WalletNotFoundException;
 	Wallet depositMoney(Wallet wallet) throws WalletNotFoundException;
-	Wallet openAccount(String phoneNumber, String name, String password) throws WalletNotFoundException; 
+	boolean login(String phoneNumber, String password) throws WalletNotFoundException;
 
 }
