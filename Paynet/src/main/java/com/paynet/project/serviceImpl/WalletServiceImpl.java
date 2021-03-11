@@ -20,16 +20,21 @@ public class WalletServiceImpl implements WalletServiceAPI{
 	private WalletDao dao;
 	
 	@Override
-	public Wallet openAccount(Wallet wallet) throws WalletNotFoundException {
+	public Wallet openAccount(String phoneNumber, String name, String password) throws WalletNotFoundException {
 		
-		Optional<Wallet> wall = dao.getWalletByNumber(wallet.getPhoneNumber());
+		Optional<Wallet> wall = dao.getWalletByNumber(phoneNumber);
         
         if(wall.isPresent())
         {             
-           throw new WalletNotFoundException("Wallet already exist with "+ wallet.getPhoneNumber() +" this number");
+           throw new WalletNotFoundException("Wallet already exist with "+ phoneNumber +" this number");
         } else {
+        	Wallet wallet = new Wallet();
         	wallet.setAmount(new BigDecimal("1000"));
+        	wallet.setPhoneNumber(phoneNumber);
+        	wallet.setName(name);
         	wallet.setCreatedAt(new Date());
+        	wallet.setPassword(password);
+        	wallet.setUpdatedAt(new Date());
         	wallet = dao.openAccount(wallet);
             return wallet;
         }		

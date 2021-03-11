@@ -20,6 +20,10 @@ public class Wallet {
 	@Column(nullable=false )
 	private String name;
 	
+	@NotBlank(message = "Name is mandatory")
+	@Column(nullable=false, length=8 )
+	private String password;
+	
 	@CreationTimestamp 
 	private Date createdAt;
 	  
@@ -38,6 +42,9 @@ public class Wallet {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getName() {
 		return name;
 	}
@@ -50,22 +57,6 @@ public class Wallet {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public Wallet(String phoneNumber, @NotBlank(message = "Name is mandatory") String name, Date createdAt,
-			Date updatedAt, BigDecimal amount) {
-		super();
-		this.phoneNumber = phoneNumber;
-		this.name = name;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.amount = amount;
-	}
-	public Wallet(String phoneNumber, String name, BigDecimal amount) {
-		super();
-		this.phoneNumber = phoneNumber;
-		this.name = name;
-		this.amount = amount;
-	}
-	
 	 public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -77,6 +68,16 @@ public class Wallet {
 	}
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public Wallet(String phoneNumber, @NotBlank(message = "Name is mandatory") String name, Date createdAt,
+			Date updatedAt, BigDecimal amount, String password) {
+		super();
+		this.phoneNumber = phoneNumber;
+		this.name = name;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.amount = amount;
+		this.password = password;
 	}
 	@Override
 	    public String toString() {

@@ -52,9 +52,9 @@ public class WalletController {
        return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
    }
 	
-	@PostMapping("/openAcc")
-	 public ResponseEntity<Wallet> openAccount(@RequestBody Wallet wallet) throws WalletNotFoundException{
-		Wallet w = serviceImpl.openAccount(wallet) ;
+	@PostMapping("/signup")
+	 public ResponseEntity<Wallet> signUp(@PathVariable String phoneNumber, @PathVariable String name, @PathVariable String password) throws WalletNotFoundException{
+		Wallet w = serviceImpl.openAccount(phoneNumber, name, password) ;
 		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 		
