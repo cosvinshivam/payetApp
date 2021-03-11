@@ -25,17 +25,12 @@ public class WalletDao {
 		
 	}
 	
-	public void openAccount(Wallet wallet) {
-		repo.save(wallet);
+	public Wallet openAccount(Wallet wallet) {
+		return repo.save(wallet);
 	}
 	
 	public void transferMoney(String sender, String receiver, BigDecimal amount) {
 		//repo.save(wallet);
 	}
 	
-	public void depositMoney(Wallet wallet) {
-		repo.save(wallet);
-	}
-
-
 }

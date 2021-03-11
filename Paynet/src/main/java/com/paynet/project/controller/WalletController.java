@@ -1,9 +1,12 @@
 package com.paynet.project.controller;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-
+import java.util.List;
+import javax.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.paynet.project.exception.WalletNotFoundException;
 import com.paynet.project.serviceImpl.WalletServiceImpl;
 import com.paynet.project.wallet.Wallet;
+
 
 @RestController
 public class WalletController {
@@ -35,30 +40,34 @@ public class WalletController {
         javaMailSender.send(msg);
     }
 	
+	@GetMapping("/getall")
+	public ResponseEntity<List<Wallet>> fetchAllWallets() {
+		List<Wallet> list = serviceImpl.getAllWallets(); 
+		return new ResponseEntity<List<Wallet>>(list, new HttpHeaders(), HttpStatus.OK);
+    }                        
+		
+	@GetMapping("/ss/{number}")
+	 public ResponseEntity<Wallet> showStatement(@PathVariable String phoneNumber)  throws WalletNotFoundException {
+       Wallet wallet = serviceImpl.getWalletByNumber(phoneNumber);
+       return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
+   }
 	
-	@PostMapping("/openAccount")
-	void openAccount(@RequestBody Wallet wallet) {
-		serviceImpl.openAccount(wallet);
+	@PostMapping("/openAcc")
+	 public ResponseEntity<Wallet> openAccount(@RequestBody Wallet wallet) throws WalletNotFoundException{
+		Wallet w = serviceImpl.openAccount(wallet) ;
+		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
-	
+		
 	@PutMapping("/deposit")
-	void depositMoney(@RequestBody Wallet wallet) {
-		serviceImpl.depositMoney(wallet);
+	public ResponseEntity<Wallet> depositMoney(@Valid @RequestBody Wallet wallet) throws WalletNotFoundException{
+		Wallet w = serviceImpl.depositMoney(wallet);
+		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/fundTransfer")
-	void fundTransfer(@PathVariable String sender,@PathVariable String receiver,@PathVariable BigDecimal amount) {
-		serviceImpl.transferMoney(sender,receiver,amount);
+	public ResponseEntity<Wallet> fundTransfer(@PathVariable String sender, @PathVariable String receiver, @PathVariable BigDecimal amount)throws WalletNotFoundException{
+		Wallet w = serviceImpl.transferMoney(sender, receiver, amount);
+		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/getall")
-    Iterable<Wallet> fetchAllWallets() {
-    	return serviceImpl.getAllWallets(); 
-    }                        
-	
-	@GetMapping("/showstatement/{number}")
-    Optional<Wallet> showStatement(@PathVariable String phoneNumber) {
-    	return serviceImpl.getWalletByNumber(phoneNumber);
-    }
-    
 }

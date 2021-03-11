@@ -1,19 +1,32 @@
 package com.paynet.project.wallet;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 public class Wallet {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    String phoneNumber;
-	String name;
-	BigDecimal amount =	new BigDecimal("1000");
+	@Column(length=10)
+    private String phoneNumber;
+	
+	@NotBlank(message = "Name is mandatory")
+	@Column(nullable=false )
+	private String name;
+	
+	@CreationTimestamp 
+	private Date createdAt;
+	  
+	@UpdateTimestamp
+	private Date updatedAt;
+	 
+	private BigDecimal amount =	new BigDecimal("1000");
 	
 	public Wallet() {
 		super();
@@ -37,6 +50,15 @@ public class Wallet {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+	public Wallet(String phoneNumber, @NotBlank(message = "Name is mandatory") String name, Date createdAt,
+			Date updatedAt, BigDecimal amount) {
+		super();
+		this.phoneNumber = phoneNumber;
+		this.name = name;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.amount = amount;
+	}
 	public Wallet(String phoneNumber, String name, BigDecimal amount) {
 		super();
 		this.phoneNumber = phoneNumber;
@@ -44,5 +66,22 @@ public class Wallet {
 		this.amount = amount;
 	}
 	
+	 public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	@Override
+	    public String toString() {
+	        return "Wallet [Contact=" + this.phoneNumber + ", Name=" + this.name + 
+	                ", amount=" + this.amount   + ", createdAt =" + this.amount +", updatedAt = " + this.updatedAt;
+	    }
 	
 }
