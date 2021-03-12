@@ -70,12 +70,13 @@ public class WalletController {
 		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/ss/{phoneNumber}/{password}")
+	@GetMapping("/login/{phoneNumber}/{password}")
 	 public String authenticate(@PathVariable String phoneNumber, @PathVariable String password)  throws WalletNotFoundException {
-      if(serviceImpl.login(phoneNumber, password)) {
-    	return "success";  
-      }
-      //return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
-	return password;
+		if(serviceImpl.login(phoneNumber, password)) {
+			return "success";  
+		}else {
+			//return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
+			return "Invalid user";
+		}
   }
 }
