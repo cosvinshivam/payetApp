@@ -1,4 +1,4 @@
-package com.paynet.project.wallet;
+package com.paynet.project.modal;
 
 import java.math.BigDecimal;
 import java.util.Date;

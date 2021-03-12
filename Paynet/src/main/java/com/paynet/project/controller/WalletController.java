@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paynet.project.exception.WalletNotFoundException;
+import com.paynet.project.modal.Wallet;
 import com.paynet.project.serviceImpl.WalletServiceImpl;
-import com.paynet.project.wallet.Wallet;
 
 
 @RestController

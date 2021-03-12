@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.paynet.project.modal.Wallet;
 import com.paynet.project.repository.WalletRepository;
-import com.paynet.project.wallet.Wallet;
 
 @Repository
 public class WalletDao {

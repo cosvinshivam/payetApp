@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import com.paynet.project.exception.WalletNotFoundException;
-import com.paynet.project.wallet.Wallet;
+import com.paynet.project.modal.Wallet;
 
 public interface WalletServiceAPI {
 	

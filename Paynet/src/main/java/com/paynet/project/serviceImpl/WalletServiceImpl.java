@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.paynet.project.dao.WalletDao;
 import com.paynet.project.exception.WalletNotFoundException;
+import com.paynet.project.modal.Wallet;
 import com.paynet.project.serviceAPI.WalletServiceAPI;
-import com.paynet.project.wallet.Wallet;
 
 @Service
 public class WalletServiceImpl implements WalletServiceAPI{
