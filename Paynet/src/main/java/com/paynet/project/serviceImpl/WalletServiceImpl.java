@@ -106,9 +106,9 @@ public class WalletServiceImpl implements WalletServiceAPI{
 	}
 
 	@Override
-	public boolean login(String phoneNumber, String password) throws WalletNotFoundException {
-		Optional<Wallet> wallet = dao.getWalletByNumber(phoneNumber);
-		if(wallet.isPresent() && wallet.get().equals(dao.getWalletPassword(password))) {
+	public boolean login(Wallet wallet) throws WalletNotFoundException {
+		Optional<Wallet> w = dao.getWalletByNumber(wallet.getPhoneNumber());
+		if(w.isPresent() && w.get().equals(wallet.getPassword())) {
 			return true;   
 		} 
 		else {

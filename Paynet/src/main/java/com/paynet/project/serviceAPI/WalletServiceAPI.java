@@ -13,6 +13,6 @@ public interface WalletServiceAPI {
 	Wallet openAccount(Wallet wallet) throws WalletNotFoundException;
 	Wallet transferMoney(String sender, String receiver, BigDecimal amount) throws WalletNotFoundException;
 	Wallet depositMoney(Wallet wallet) throws WalletNotFoundException;
-	boolean login(String phoneNumber, String password) throws WalletNotFoundException;
+	boolean login(Wallet wallet) throws WalletNotFoundException;
 
 }
