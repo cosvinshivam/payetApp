@@ -70,9 +70,9 @@ public class WalletController {
 		return new ResponseEntity<Wallet>(w, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/login/{phoneNumber}/{password}")
-	 public String authenticate(@PathVariable String phoneNumber, @PathVariable String password)  throws WalletNotFoundException {
-		if(serviceImpl.login(phoneNumber, password)) {
+	@PostMapping("/login")
+	 public String authenticate(@RequestBody Wallet wallet)  throws WalletNotFoundException {
+		if(serviceImpl.login(wallet)) {
 			return "success";  
 		}else {
 			//return new ResponseEntity<Wallet>(wallet, new HttpHeaders(), HttpStatus.OK);
